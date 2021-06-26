@@ -1,5 +1,4 @@
-service:
-  name: action-service
+service: action-service
 
 plugins:
   - serverless-bundle
@@ -11,6 +10,15 @@ provider:
   memorySize: 256
   stage: ${opt:stage, 'dev'}
   region: us-west-2
+  lambdaHashingVersion: 20201221
+  iam:
+    role:
+      statements:
+        - ${file(iam/AuctionsTableIAM.yml):AuctionsTableIAM}
+
+resources:
+  Resources:
+    AuctionsTable: ${file(resources/AuctionsTable.yml):AuctionsTable}
   
 functions:
   createAuction:
